@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Downloads Archive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4rem 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Gradients */
+        .bg-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            animation: float 12s infinite ease-in-out;
+            opacity: 0.6;
+        }
+        .blob-1 {
+            top: -5%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            animation-delay: 0s;
+        }
+        .blob-2 {
+            bottom: -5%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #ec4899, #f43f5e);
+            animation-delay: -6s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(40px, -60px) scale(1.05); }
+            66% { transform: translate(-30px, 30px) scale(0.95); }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            z-index: 1;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            text-align: center;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            background: linear-gradient(to right, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+        }
+
+        /* Glassmorphism Card */
+        .file-list-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 0.8s ease-out;
+            min-height: 300px;
+        }
+
+        /* File List Header */
+        .list-header {
+            display: grid;
+            grid-template-columns: 2.5fr 1.5fr 1fr 50px;
+            gap: 1rem;
+            padding: 0 1rem 1rem 1rem;
+            border-bottom: 1px solid var(--card-border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* File Items */
+        .file-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .file-item {
+            display: grid;
+            grid-template-columns: 2.5fr 1.5fr 1fr 50px;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            color: var(--text-main);
+            border: 1px solid transparent;
+        }
+
+        .file-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .file-name-col {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            overflow: hidden;
+        }
+
+        .file-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--primary);
+            border-radius: 0.75rem;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .file-item:hover .file-icon {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            transform: scale(1.05);
+        }
+
+        .file-name {
+            font-weight: 500;
+            font-size: 1.05rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-date, .file-size {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .file-item:hover .download-btn {
+            background: var(--text-main);
+            border-color: var(--text-main);
+            color: var(--bg-color);
+            transform: scale(1.1);
+        }
+
+        /* Loading & Empty States */
+        .status-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 250px;
+            color: var(--text-muted);
+            gap: 1.5rem;
+        }
+
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); filter: blur(10px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); filter: blur(10px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .list-header {
+                display: none;
+            }
+            .file-item {
+                grid-template-columns: 1fr auto;
+                grid-template-areas: 
+                    "name name"
+                    "date size";
+                row-gap: 0.75rem;
+                padding: 1.25rem 1rem;
+            }
+            .file-name-col { grid-area: name; }
+            .file-date { grid-area: date; font-size: 0.85rem; padding-left: 60px; }
+            .file-size { grid-area: size; font-size: 0.85rem; text-align: right; }
+            .download-btn { display: none; } 
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+
+    <div class="container">
+        <header>
+            <h1>Downloads Archive</h1>
+            <p>Access and securely download your files instantly</p>
+        </header>
+
+        <div class="file-list-container">
+            <div class="list-header">
+                <div>Name</div>
+                <div>Date Modified</div>
+                <div>Size</div>
+                <div></div>
+            </div>
+            
+            <div id="status" class="status-message">
+                <div class="spinner"></div>
+                <p>Syncing files...</p>
+            </div>
+
+            <ul id="file-list" class="file-list">
+                <!-- Files will be injected here -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const getFileIcon = (filename) => {
+            const ext = filename.split('.').pop().toLowerCase();
+            const svgBase = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">`;
+            
+            if (['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'].includes(ext)) {
+                return `${svgBase}<rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`;
+            } else if (['mp4', 'webm', 'mov', 'avi'].includes(ext)) {
+                return `${svgBase}<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>`;
+            } else if (['pdf'].includes(ext)) {
+                return `${svgBase}<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>`;
+            } else if (['zip', 'rar', 'tar', 'gz', '7z'].includes(ext)) {
+                return `${svgBase}<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`;
+            } else if (['txt', 'md', 'csv', 'json'].includes(ext)) {
+                return `${svgBase}<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`;
+            }
+            return `${svgBase}<path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>`;
+        };
+
+        const fetchAndParseFiles = async () => {
+            const listEl = document.getElementById('file-list');
+            const statusEl = document.getElementById('status');
+            
+            try {
+                // cache busting to ensure freshness
+                const response = await fetch(`files.json?t=${new Date().getTime()}`);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
+                const files = await response.json();
+
+                statusEl.style.display = 'none';
+
+                if (files.length === 0) {
+                    statusEl.style.display = 'flex';
+                    statusEl.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.3; margin-bottom: 0.5rem;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <p style="font-size: 1.1rem; color: #cbd5e1;">Folder is empty</p>
+                    `;
+                    return;
+                }
+
+                listEl.innerHTML = '';
+                files.forEach((file, index) => {
+                    const li = document.createElement('li');
+                    li.style.animation = `fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.08}s forwards`;
+                    li.style.opacity = '0';
+                    li.style.transform = 'translateY(20px)';
+                    
+                    li.innerHTML = `
+                        <a href="${file.href}" class="file-item" download="${file.name}">
+                            <div class="file-name-col">
+                                <div class="file-icon">
+                                    ${getFileIcon(file.name)}
+                                </div>
+                                <span class="file-name" title="${file.name}">${file.name}</span>
+                            </div>
+                            <div class="file-date">${file.date}</div>
+                            <div class="file-size">${file.size}</div>
+                            <div class="download-btn" title="Download">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            </div>
+                        </a>
+                    `;
+                    listEl.appendChild(li);
+                });
+
+            } catch (error) {
+                console.error("Error fetching files:", error);
+                statusEl.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 0.5rem;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <p style="color: #f43f5e; font-weight: 500; font-size: 1.1rem;">Failed to load files</p>
+                    <p style="font-size: 0.9rem; max-width: 320px; text-align: center; color: var(--text-muted); line-height: 1.5;">Make sure <code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">files.json</code> has been generated.</p>
+                `;
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', fetchAndParseFiles);
+    </script>
+</body>
+</html>
