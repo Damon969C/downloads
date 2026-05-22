@@ -36,11 +36,17 @@
         }
 
         /* Animated Background Gradients */
+        .bg-wrapper {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
         .bg-blob {
             position: absolute;
             border-radius: 50%;
             filter: blur(100px);
-            z-index: -1;
             animation: float 12s infinite ease-in-out;
             opacity: 0.6;
         }
@@ -121,9 +127,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1rem 1.5rem;
+            padding: 1rem 1rem;
             cursor: pointer;
             user-select: none;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
             transition: background 0.3s ease;
             font-weight: 500;
             font-size: 1.1rem;
@@ -331,8 +339,10 @@
     </style>
 </head>
 <body>
-    <div class="bg-blob blob-1"></div>
-    <div class="bg-blob blob-2"></div>
+    <div class="bg-wrapper">
+        <div class="bg-blob blob-1"></div>
+        <div class="bg-blob blob-2"></div>
+    </div>
 
     <div class="container">
         <header>
