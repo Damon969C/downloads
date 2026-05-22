@@ -28,17 +28,5 @@
     "href": "downloads/check-sha256.py",
     "date": "2026-04-04 13:36",
     "size": "1.7 KB"
-  },
-  {
-    "name": "sample-document.pdf",
-    "href": "downloads/sample-document.pdf",
-    "date": "2026-05-22 15:33",
-    "size": "13 B"
-  },
-  {
-    "name": "test-file.txt",
-    "href": "downloads/test-file.txt",
-    "date": "2026-05-22 15:33",
-    "size": "20 B"
   }
 ]
