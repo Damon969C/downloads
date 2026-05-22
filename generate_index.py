@@ -7,19 +7,27 @@ def main():
     if not os.path.exists(downloads_dir):
         os.makedirs(downloads_dir)
         
-    files_list = []
+    categorized_files = {}
     
-    for filename in os.listdir(downloads_dir):
-        # Skip hidden files
-        if filename.startswith('.'):
-            continue
+    for root, dirs, files in os.walk(downloads_dir):
+        rel_path = os.path.relpath(root, downloads_dir)
+        if rel_path == '.':
+            category = '根目录'
+        else:
+            category = rel_path.replace(os.sep, '/')
             
-        filepath = os.path.join(downloads_dir, filename)
+        category_files = []
         
-        if os.path.isfile(filepath):
+        for filename in files:
+            if filename.startswith('.'):
+                continue
+                
+            filepath = os.path.join(root, filename)
+            if not os.path.isfile(filepath):
+                continue
+                
             stat = os.stat(filepath)
             
-            # Format size
             size = stat.st_size
             if size < 1024:
                 size_str = f"{size} B"
@@ -28,22 +36,24 @@ def main():
             else:
                 size_str = f"{size / (1024 ** 2):.1f} MB"
                 
-            # Format date (e.g. 2026-05-22 15:30)
             dt = datetime.datetime.fromtimestamp(stat.st_mtime)
             date_str = dt.strftime('%Y-%m-%d %H:%M')
             
-            files_list.append({
+            category_files.append({
                 'name': filename,
-                'href': f'downloads/{filename}',
+                'href': filepath.replace(os.sep, '/'),
                 'date': date_str,
                 'size': size_str
             })
             
-    # Sort files by name
-    files_list.sort(key=lambda x: x['name'])
+        if category_files:
+            category_files.sort(key=lambda x: x['name'])
+            categorized_files[category] = category_files
             
+    # Optional: ensure '根目录' is first or handled specially
+    
     with open('files.json', 'w', encoding='utf-8') as f:
-        json.dump(files_list, f, ensure_ascii=False, indent=2)
-        
+        json.dump(categorized_files, f, ensure_ascii=False, indent=2)
+
 if __name__ == '__main__':
     main()

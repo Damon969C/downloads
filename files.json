@@ -1,32 +1,28 @@
-[
-  {
-    "name": "AutoHotkey_1.1.37.02_setup.exe",
-    "href": "downloads/AutoHotkey_1.1.37.02_setup.exe",
-    "date": "2026-04-27 14:20",
-    "size": "3.3 MB"
-  },
-  {
-    "name": "ComicShannsMono.zip",
-    "href": "downloads/ComicShannsMono.zip",
-    "date": "2025-03-03 00:50",
-    "size": "15.2 MB"
-  },
-  {
-    "name": "anyburn_setup.exe",
-    "href": "downloads/anyburn_setup.exe",
-    "date": "2026-04-07 18:43",
-    "size": "4.1 MB"
-  },
-  {
-    "name": "apply_registry_menu.bat",
-    "href": "downloads/apply_registry_menu.bat",
-    "date": "2026-04-30 14:16",
-    "size": "19.0 KB"
-  },
-  {
-    "name": "check-sha256.py",
-    "href": "downloads/check-sha256.py",
-    "date": "2026-04-04 13:36",
-    "size": "1.7 KB"
-  }
-]
+{
+  "Windows": [
+    {
+      "name": "AutoHotkey_1.1.37.02_setup.exe",
+      "href": "downloads/Windows/AutoHotkey_1.1.37.02_setup.exe",
+      "date": "2026-04-27 14:20",
+      "size": "3.3 MB"
+    },
+    {
+      "name": "ComicShannsMono.zip",
+      "href": "downloads/Windows/ComicShannsMono.zip",
+      "date": "2025-03-03 00:50",
+      "size": "15.2 MB"
+    },
+    {
+      "name": "anyburn_setup.exe",
+      "href": "downloads/Windows/anyburn_setup.exe",
+      "date": "2026-04-07 18:43",
+      "size": "4.1 MB"
+    },
+    {
+      "name": "apply_registry_menu.bat",
+      "href": "downloads/Windows/apply_registry_menu.bat",
+      "date": "2026-04-30 14:16",
+      "size": "19.0 KB"
+    }
+  ]
+}
