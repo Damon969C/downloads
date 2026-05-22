@@ -388,7 +388,7 @@
                 if (!files || files.length === 0) return;
 
                 const section = document.createElement('div');
-                section.className = `category-section ${index === 0 ? 'open' : ''}`; // Open first category by default
+                section.className = 'category-section'; // All categories closed by default
                 section.style.animation = `fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.1}s forwards`;
                 section.style.opacity = '0';
                 section.style.transform = 'translateY(20px)';
