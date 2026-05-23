@@ -2,21 +2,27 @@ import os
 import json
 import datetime
 
+def get_node(tree, rel_path):
+    if rel_path == '.':
+        return tree
+    parts = rel_path.replace(os.sep, '/').split('/')
+    current = tree
+    for part in parts:
+        if part not in current["children"]:
+            current["children"][part] = {"files": [], "children": {}}
+        current = current["children"][part]
+    return current
+
 def main():
     downloads_dir = 'downloads'
     if not os.path.exists(downloads_dir):
         os.makedirs(downloads_dir)
         
-    categorized_files = {}
+    tree = {"files": [], "children": {}}
     
     for root, dirs, files in os.walk(downloads_dir):
         rel_path = os.path.relpath(root, downloads_dir)
-        if rel_path == '.':
-            category = '根目录'
-        else:
-            category = rel_path.replace(os.sep, '/')
-            
-        category_files = []
+        node = get_node(tree, rel_path)
         
         for filename in files:
             if filename.startswith('.'):
@@ -39,21 +45,17 @@ def main():
             dt = datetime.datetime.fromtimestamp(stat.st_mtime)
             date_str = dt.strftime('%Y-%m-%d %H:%M')
             
-            category_files.append({
+            node["files"].append({
                 'name': filename,
                 'href': filepath.replace(os.sep, '/'),
                 'date': date_str,
                 'size': size_str
             })
             
-        if category_files:
-            category_files.sort(key=lambda x: x['name'])
-            categorized_files[category] = category_files
+        node["files"].sort(key=lambda x: x['name'])
             
-    # Optional: ensure '根目录' is first or handled specially
-    
     with open('files.json', 'w', encoding='utf-8') as f:
-        json.dump(categorized_files, f, ensure_ascii=False, indent=2)
+        json.dump(tree, f, ensure_ascii=False, indent=2)
 
 if __name__ == '__main__':
     main()
